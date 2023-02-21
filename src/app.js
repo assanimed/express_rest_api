@@ -23,13 +23,24 @@ mongoose
     dbName: "reststore",
   })
   .then(() => console.log("MongoDB Connected"))
-  .catch(() => console.log("MongoDB Connection Failed"));
+  .catch(() => console.log("MongoDB Connection Fail"));
 
+mongoose.connection.on("connected", () => {
+  console.log("Mongoose Connecte to mongoDB");
+});
+
+mongoose.connection.on("error", (error) => {
+  console.log("Mongoose Connection  Error ->");
+  console.log(error);
+});
+
+mongoose.connection.on("disconnected", () => {
+  console.log("Mongoose Disconnected");
+});
 app.use("/products", ProductRoute);
 
 app.use((res, req, next) => next(createError.NotFound("Not Found")));
 
-// ERROR Handler
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.send({
