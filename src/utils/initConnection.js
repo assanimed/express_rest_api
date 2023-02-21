@@ -1,10 +1,15 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const initConnection = () => {
   mongoose.set("strictQuery", false);
   mongoose
     .connect(process.env.MONGODB_URL, {
-      dbName: "reststore",
+      dbName: process.env.dbName,
+      user: process.env.dbUser,
+      pass: process.env.dbPass,
     })
     .then(() => console.log("MongoDB Connected"))
     .catch(() => console.log("MongoDB Connection Fail"));
