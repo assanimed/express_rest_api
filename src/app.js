@@ -14,13 +14,16 @@ app.use(
     extended: true,
   })
 );
-
+// init MongoDB Database Connection
 initConnection();
 
+// Handle products routes
 app.use("/products", ProductRoute);
 
+// handle 404 error
 app.use((res, req, next) => next(createError.NotFound("Not Found")));
 
+// error handeling
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.send({
