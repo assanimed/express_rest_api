@@ -4,6 +4,8 @@ import createError from "http-errors";
 import ProductRoute from "./Routes/Product.js";
 import initConnection from "./utils/initConnection.js";
 
+import docs from "./docs/index.js";
+
 dotenv.config();
 const app = express();
 
@@ -19,6 +21,8 @@ initConnection();
 
 // Handle products routes
 app.use("/products", ProductRoute);
+
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(docs));
 
 // handle 404 error
 app.use((res, req, next) => next(createError.NotFound("Not Found")));
