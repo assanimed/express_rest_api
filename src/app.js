@@ -1,12 +1,10 @@
 import express from "express";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
 import createError from "http-errors";
+import ProductRoute from "./Routes/Product.js";
+import initConnection from "./utils/initConnection.js";
 
 dotenv.config();
-
-import ProductRoute from "./Routes/Product.js";
-
 const app = express();
 
 app.use(express.json());
@@ -17,26 +15,8 @@ app.use(
   })
 );
 
-mongoose.set("strictQuery", false);
-mongoose
-  .connect(process.env.MONGODB_URL, {
-    dbName: "reststore",
-  })
-  .then(() => console.log("MongoDB Connected"))
-  .catch(() => console.log("MongoDB Connection Fail"));
+initConnection();
 
-mongoose.connection.on("connected", () => {
-  console.log("Mongoose Connecte to mongoDB");
-});
-
-mongoose.connection.on("error", (error) => {
-  console.log("Mongoose Connection  Error ->");
-  console.log(error);
-});
-
-mongoose.connection.on("disconnected", () => {
-  console.log("Mongoose Disconnected");
-});
 app.use("/products", ProductRoute);
 
 app.use((res, req, next) => next(createError.NotFound("Not Found")));
