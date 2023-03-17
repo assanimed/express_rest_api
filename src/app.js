@@ -4,6 +4,8 @@ import createError from "http-errors";
 import ProductRoute from "./Routes/Product.js";
 import initConnection from "./utils/initConnection.js";
 
+import swaggerUI from "swagger-ui-express";
+
 import docs from "./docs/index.js";
 
 dotenv.config();
